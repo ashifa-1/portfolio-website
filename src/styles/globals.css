@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  font-family: 'Inter', system-ui, sans-serif;
+  --bg: 250 250 253;
+  --surface: 255 255 255;
+  --text: 15 23 42;
+  --muted: 71 85 105;
+  --border: 226 232 240;
+  --shadow: 0 0 0 / 0;
+  --accent: 139 92 246;
+  --accent-foreground: 255 255 255;
+  --radius: 1.75rem;
+}
+
+html {
+  scroll-behavior: smooth;
+  min-height: 100%;
+  background: rgb(var(--bg));
+  color: rgb(var(--text));
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, rgba(56, 189, 248, 0.12), transparent 28%), rgb(var(--bg));
+  color: rgb(var(--text));
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(var(--accent), 0.18);
+  color: rgb(var(--accent-foreground));
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: 15 23 42;
+  --surface: 22 28 45;
+  --text: 241 245 249;
+  --muted: 148 163 184;
+  --border: 51 65 85;
+  --shadow: 0 0 0 / 0;
+}
+
+[data-accent='violet'] {
+  --accent: 139 92 246;
+  --accent-foreground: 255 255 255;
+}
+
+[data-accent='cyan'] {
+  --accent: 34 211 238;
+  --accent-foreground: 15 23 42;
+}
+
+[data-accent='emerald'] {
+  --accent: 16 185 129;
+  --accent-foreground: 255 255 255;
+}
+
+[data-accent='rose'] {
+  --accent: 244 63 94;
+  --accent-foreground: 255 255 255;
+}
+
+[data-accent='amber'] {
+  --accent: 251 191 36;
+  --accent-foreground: 15 23 42;
+}
+
+:root {
+  --shadow-soft: 0 25px 80px rgba(15, 23, 42, 0.08);
+}
+
+@layer base {
+  body {
+    font-feature-settings: 'cv05' 1, 'cv06' 1, 'ss01' 1;
+  }
+
+  .surface {
+    background: rgb(var(--surface));
+    border: 1px solid rgba(var(--border), 0.88);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .accent-ring {
+    background: linear-gradient(135deg, rgba(var(--accent), 0.18), transparent 60%);
+  }
+
+  .accent-text {
+    color: rgb(var(--accent));
+  }
+
+  .accent-bg {
+    background-color: rgba(var(--accent), 0.12);
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .glass-dark {
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
