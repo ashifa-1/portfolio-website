@@ -4,6 +4,8 @@ export { Card } from './ui/Card';
 export { GlassPanel } from './ui/GlassPanel';
 export { Badge } from './ui/Badge';
 export { ThemeToggle } from './ui/ThemeToggle';
+export { Carousel } from './ui/Carousel';
+export { AnimatedName } from './ui/AnimatedName';
 
 // Common Components
 export { Container } from './common/Container';
