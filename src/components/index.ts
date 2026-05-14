@@ -18,4 +18,6 @@ export { AccentColorProvider, useAccentColor } from './theme/AccentColorProvider
 export { AccentSwitcher } from './theme/AccentSwitcher';
 export { FloatingThemeToggle } from './theme/FloatingThemeToggle';
 export { FloatingAccentSelector } from './theme/FloatingAccentSelector';
+export { InteractiveBackground } from './theme/InteractiveBackground';
+export { InteractiveLighting, FloatingLightOrbs, DynamicMeshBackground } from './theme/InteractiveLighting';
 export { FloatingControls } from './theme/FloatingControls';

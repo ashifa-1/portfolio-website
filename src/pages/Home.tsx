@@ -1,17 +1,17 @@
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import {
   ArrowRight,
   Github,
   Linkedin,
   Mail,
   Code2,
-  Cpu,
   Zap,
   ChevronDown,
   Download,
   ExternalLink
 } from 'lucide-react';
 import { Button, Card, Badge, Section, AnimatedHeading, Carousel, AnimatedName } from '@/components';
+import { useMousePosition } from '@/hooks/useMousePosition';
 
 export function Home() {
   const { scrollY } = useScroll();
@@ -46,9 +46,10 @@ export function Home() {
   const heroMidY = useTransform(scrollY, [0, 1200], [0, -70]);
   const heroFastY = useTransform(scrollY, [0, 1200], [0, -40]);
 
-  const floatingAnimation = shouldReduceMotion
-    ? { y: 0, rotate: 0 }
-    : { y: [-10, 10, -10], rotate: [-2, 2, -2] };
+  // Mouse interaction for hero
+  const { mouseX, mouseY, springX, springY } = useMousePosition();
+  const heroGlowX = useTransform(springX, [0, window.innerWidth], [-200, window.innerWidth + 200]);
+  const heroGlowY = useTransform(springY, [0, window.innerHeight], [-200, window.innerHeight + 200]);
 
   const socialLinks = [
     { icon: Github, href: 'https://github.com/ashifa-1/', label: 'GitHub' },
@@ -163,63 +164,160 @@ export function Home() {
 
   const educationTimeline = [...educationHistory].reverse();
 
+// Hero Particles Component
+function HeroParticles() {
+  const particles = Array.from({ length: 25 }, (_, i) => ({
+    id: i,
+    size: Math.random() * 6 + 3,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    delay: Math.random() * 15,
+    duration: Math.random() * 20 + 20,
+    color: ['var(--accent)', 'var(--accent-cyan)', 'var(--accent-emerald)'][Math.floor(Math.random() * 3)],
+  }));
+
+  return (
+    <div className="absolute inset-0 pointer-events-none">
+      {particles.map((particle) => (
+        <motion.div
+          key={particle.id}
+          className="absolute rounded-full"
+          style={{
+            width: particle.size,
+            height: particle.size,
+            left: `${particle.x}%`,
+            top: `${particle.y}%`,
+            background: `radial-gradient(circle, rgba(${particle.color}, 0.6) 0%, rgba(${particle.color}, 0.3) 50%, transparent 100%)`,
+          }}
+          animate={{
+            x: [0, Math.random() * 300 - 150, 0],
+            y: [0, Math.random() * 300 - 150, 0],
+            opacity: [0.3, 0.8, 0.3],
+            scale: [1, 1.5, 1],
+          }}
+          transition={{
+            duration: particle.duration,
+            repeat: Infinity,
+            delay: particle.delay,
+            ease: 'easeInOut',
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
   return (
     <div className="space-y-16">
       {/* Cinematic Hero Section */}
       <Section id="home" className="relative min-h-[calc(100vh-8rem)] flex items-center overflow-hidden">
-        {/* Animated Background */}
+        {/* Interactive Hero Background */}
         <motion.div
           style={{ y: heroSlowY }}
           className="absolute inset-0 -z-10"
         >
-          {/* Gradient Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[rgb(var(--bg))] via-[rgba(var(--accent),0.03)] to-[rgb(var(--bg))]" />
+          {/* Multi-layered gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[rgb(var(--bg))] via-[rgba(var(--accent),0.04)] via-30% to-[rgb(var(--bg))]" />
+          <div className="absolute inset-0 bg-gradient-to-tl from-transparent via-[rgba(var(--accent-cyan),0.02)] to-transparent opacity-70" />
+          <div className="absolute inset-0 bg-gradient-radial from-[rgba(var(--accent),0.03)] via-transparent to-transparent" />
 
-          {/* Animated Grid */}
-          <div className="absolute inset-0 opacity-20">
+          {/* Interactive cursor-reactive glow */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: `radial-gradient(circle 400px at ${heroGlowX}px ${heroGlowY}px,
+                rgba(var(--accent), 0.06) 0%,
+                rgba(var(--accent-cyan), 0.04) 40%,
+                transparent 70%)`,
+            }}
+          />
+
+          {/* Enhanced animated grid with depth */}
+          <div className="absolute inset-0 opacity-15">
             <motion.div
               style={{ y: heroMidY }}
-              className="absolute inset-0 bg-[linear-gradient(rgba(var(--accent),0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(var(--accent),0.1)_1px,transparent_1px)] bg-[size:50px_50px]"
+              className="absolute inset-0 bg-[linear-gradient(rgba(var(--accent),0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(var(--accent),0.08)_1px,transparent_1px)] bg-[size:60px_60px]"
             />
             <motion.div
-              animate={shouldReduceMotion ? { x: 0, y: 0 } : { x: [0, 15, 0], y: [0, 10, 0] }}
+              animate={shouldReduceMotion ? { x: 0, y: 0 } : { x: [0, 20, 0], y: [0, 15, 0] }}
               transition={{
-                duration: 22,
+                duration: 25,
                 repeat: shouldReduceMotion ? 0 : Infinity,
                 ease: 'linear',
               }}
-              className="absolute inset-0 bg-[linear-gradient(rgba(var(--accent),0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(var(--accent),0.05)_1px,transparent_1px)] bg-[size:50px_50px]"
+              className="absolute inset-0 bg-[linear-gradient(rgba(var(--accent),0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(var(--accent),0.04)_1px,transparent_1px)] bg-[size:60px_60px]"
             />
           </div>
 
-          {/* Floating Orbs */}
+          {/* Enhanced floating orbs with cinematic lighting */}
           <motion.div
             style={{ y: heroFastY }}
             animate={shouldReduceMotion ? {} : {
-              y: [-10, 10, -10],
-              rotate: [-2, 2, -2]
+              y: [-15, 15, -15],
+              rotate: [-3, 3, -3],
+              scale: [1, 1.05, 1]
             }}
-            transition={{ duration: 6, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-gradient-to-r from-[rgba(var(--accent),0.1)] to-[rgba(var(--accent),0.05)] blur-xl"
+            transition={{ duration: 8, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="absolute top-1/5 left-1/5 w-48 h-48 rounded-full bg-gradient-radial from-[rgba(var(--accent),0.15)] via-[rgba(var(--accent),0.08)] to-transparent blur-2xl opacity-80"
           />
           <motion.div
             style={{ y: heroMidY }}
             animate={shouldReduceMotion ? {} : {
-              y: [-10, 10, -10],
-              rotate: [-2, 2, -2]
+              y: [-12, 12, -12],
+              rotate: [3, -3, 3],
+              scale: [1.05, 1, 1.05]
             }}
-            transition={{ duration: 6, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94], delay: 1.5 }}
-            className="absolute top-3/4 right-1/4 w-24 h-24 rounded-full bg-gradient-to-r from-[rgba(var(--accent-cyan),0.1)] to-[rgba(var(--accent-cyan),0.05)] blur-xl"
+            transition={{ duration: 10, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94], delay: 2 }}
+            className="absolute top-3/4 right-1/5 w-40 h-40 rounded-full bg-gradient-radial from-[rgba(var(--accent-cyan),0.12)] via-[rgba(var(--accent-cyan),0.06)] to-transparent blur-2xl opacity-70"
           />
           <motion.div
             style={{ y: heroSlowY }}
             animate={shouldReduceMotion ? {} : {
               y: [-10, 10, -10],
-              rotate: [-2, 2, -2]
+              rotate: [-2, 2, -2],
+              scale: [1, 1.08, 1]
             }}
-            transition={{ duration: 6, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94], delay: 3 }}
-            className="absolute bottom-1/4 left-1/3 w-20 h-20 rounded-full bg-gradient-to-r from-[rgba(var(--accent-emerald),0.1)] to-[rgba(var(--accent-emerald),0.05)] blur-xl"
+            transition={{ duration: 12, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94], delay: 4 }}
+            className="absolute bottom-1/4 left-2/5 w-36 h-36 rounded-full bg-gradient-radial from-[rgba(var(--accent-emerald),0.1)] via-[rgba(var(--accent-emerald),0.05)] to-transparent blur-2xl opacity-60"
           />
+
+          {/* Additional ambient lighting orbs */}
+          <motion.div
+            animate={shouldReduceMotion ? {} : {
+              scale: [1, 1.2, 1],
+              opacity: [0.4, 0.6, 0.4]
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+            className="absolute top-1/3 right-1/3 w-32 h-32 rounded-full bg-gradient-radial from-[rgba(var(--accent-rose),0.08)] to-transparent blur-xl opacity-50"
+          />
+          <motion.div
+            animate={shouldReduceMotion ? {} : {
+              scale: [1.1, 1, 1.1],
+              opacity: [0.3, 0.5, 0.3]
+            }}
+            transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+            className="absolute bottom-1/2 left-1/4 w-28 h-28 rounded-full bg-gradient-radial from-[rgba(var(--accent-amber),0.06)] to-transparent blur-xl opacity-40"
+          />
+
+          {/* Interactive floating particles for hero */}
+          <HeroParticles />
+
+          {/* Dynamic mesh gradients */}
+          <motion.div
+            className="absolute inset-0 opacity-30"
+            animate={{
+              background: [
+                'conic-gradient(from 0deg at 50% 50%, rgba(var(--accent), 0.03) 0deg, transparent 90deg, rgba(var(--accent-cyan), 0.02) 180deg, transparent 270deg)',
+                'conic-gradient(from 90deg at 30% 70%, rgba(var(--accent-emerald), 0.03) 0deg, transparent 90deg, rgba(var(--accent-rose), 0.02) 180deg, transparent 270deg)',
+                'conic-gradient(from 180deg at 70% 30%, rgba(var(--accent-amber), 0.03) 0deg, transparent 90deg, rgba(var(--accent), 0.02) 180deg, transparent 270deg)',
+                'conic-gradient(from 0deg at 50% 50%, rgba(var(--accent), 0.03) 0deg, transparent 90deg, rgba(var(--accent-cyan), 0.02) 180deg, transparent 270deg)',
+              ]
+            }}
+            transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+          />
+
+          {/* Subtle vignette effect */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(0,0,0,0.1)] opacity-30" />
         </motion.div>
 
         {/* Main Content */}
@@ -231,34 +329,50 @@ export function Home() {
             animate="visible"
             className="mx-auto max-w-4xl space-y-8"
           >
-            <motion.div variants={itemVariants} transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}>
+            <motion.div
+              variants={itemVariants}
+              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="interactive-element cursor-reactive"
+            >
               <Badge variant="glow" className="inline-flex text-sm px-4 py-2">
                 <Zap className="mr-2 h-4 w-4" />
                 Available for Opportunities
               </Badge>
             </motion.div>
 
-            <motion.div variants={itemVariants} transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}>
-              <h1 className="display-font text-[clamp(2rem,4.5vw,3rem)] sm:text-[clamp(2.5rem,5vw,4rem)] md:text-[clamp(3rem,5vw,4.5rem)] lg:text-[clamp(3.5rem,4.8vw,5rem)] font-black tracking-tight leading-[0.95]">
+            <motion.div
+              variants={itemVariants}
+              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="interactive-element"
+            >
+              <h1 className="display-font text-[clamp(2rem,4.5vw,3rem)] sm:text-[clamp(2.5rem,5vw,4rem)] md:text-[clamp(3rem,5vw,4.5rem)] lg:text-[clamp(3.5rem,4.8vw,5rem)] font-black tracking-tight leading-[0.95] particle-trail">
                 <span className="block bg-gradient-to-r from-[rgb(var(--text))] via-[rgb(var(--accent))] to-[rgb(var(--text))] bg-clip-text text-transparent">
                   Mohammed Ahmad Ashifa
                 </span>
               </h1>
             </motion.div>
 
-            <motion.div variants={itemVariants} transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}>
+            <motion.div
+              variants={itemVariants}
+              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="dynamic-blur"
+            >
               <p className="text-base sm:text-lg md:text-xl text-[rgb(var(--text-secondary))] max-w-3xl leading-relaxed">
                 Computer Science undergraduate building engineering-grade AI and full-stack solutions for modern systems.
                 I craft intelligent products with scalable ML architecture, real-time reliability, and clean developer-first execution.
               </p>
             </motion.div>
 
-            <motion.div variants={itemVariants} transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }} className="flex flex-col sm:flex-row gap-4">
-              <a href="#projects">
+            <motion.div
+              variants={itemVariants}
+              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="flex flex-col sm:flex-row gap-4"
+            >
+              <a href="#projects" className="interactive-element">
                 <Button
                   variant="gradient"
                   size="lg"
-                  className="group text-base px-7 py-4 h-auto"
+                  className="group text-base px-7 py-4 h-auto cursor-reactive"
                 >
                   <span className="flex items-center">
                     View Projects
@@ -266,11 +380,11 @@ export function Home() {
                   </span>
                 </Button>
               </a>
-              <a href="/Ashifa's resume.pdf" download="Ashifa's resume.pdf">
+              <a href="/Ashifa's resume.pdf" download="Ashifa's resume.pdf" className="interactive-element">
                 <Button
                   variant="outline"
                   size="lg"
-                  className="group text-base px-7 py-4 h-auto border-2 hover:border-[rgb(var(--accent))]"
+                  className="group text-base px-7 py-4 h-auto border-2 hover:border-[rgb(var(--accent))] cursor-reactive"
                 >
                   <span className="flex items-center">
                     <Download className="mr-2 h-5 w-5" />
@@ -311,35 +425,12 @@ export function Home() {
                   <p className="text-sm uppercase tracking-[0.35em] text-[rgb(var(--text-secondary))] mb-3">
                     {card.label}
                   </p>
-                  <p className="text-xl font-semibold text-white">{card.value}</p>
+                  <p className="text-xl font-semibold text-[rgb(var(--text))]">{card.value}</p>
                 </Card>
               ))}
             </motion.div>
           </motion.div>
         </div>
-
-        {/* Floating AI Elements */}
-        <motion.div
-          animate={floatingAnimation}
-          transition={{ duration: 6, repeat: Infinity }}
-          className="absolute top-20 right-20 hidden lg:block"
-        >
-          <div className="relative">
-            <Cpu className="h-12 w-12 text-[rgba(var(--accent),0.6)]" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[rgba(var(--accent),0.2)] to-transparent rounded-full blur-md -z-10" />
-          </div>
-        </motion.div>
-
-        <motion.div
-          animate={floatingAnimation}
-          transition={{ duration: 6, repeat: Infinity, delay: 3 }}
-          className="absolute bottom-32 left-20 hidden lg:block"
-        >
-          <div className="relative">
-            <Code2 className="h-10 w-10 text-[rgba(var(--accent-cyan),0.6)]" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[rgba(var(--accent-cyan),0.2)] to-transparent rounded-full blur-md -z-10" />
-          </div>
-        </motion.div>
       </Section>
 
 {/* About Section */}
@@ -421,7 +512,7 @@ export function Home() {
                       variants={itemVariants}
                       className="hero-glass p-6 rounded-3xl border border-[rgba(255,255,255,0.12)] shadow-xl"
                     >
-                      <h3 className="text-lg sm:text-xl font-semibold text-white mb-3">{item.title}</h3>
+                      <h3 className="text-lg sm:text-xl font-semibold text-[rgb(var(--text))] mb-3">{item.title}</h3>
                       <p className="text-[rgb(var(--text-secondary))] text-sm sm:text-base leading-relaxed">
                         {item.description}
                       </p>
@@ -466,7 +557,7 @@ export function Home() {
                         <p className="text-[rgb(var(--accent))] uppercase tracking-[0.3em] text-xs font-semibold mb-2">
                           {experience.company}
                         </p>
-                        <h3 className="text-2xl font-semibold text-white">{experience.title}</h3>
+                        <h3 className="text-2xl font-semibold text-[rgb(var(--text))]">{experience.title}</h3>
                       </div>
                       <span className="text-sm font-medium text-[rgb(var(--text-secondary))]">
                         {experience.period}
@@ -521,7 +612,7 @@ export function Home() {
                       <p className="text-[rgb(var(--text-secondary))] uppercase tracking-[0.3em] text-xs font-semibold mb-2">
                         {category.title}
                       </p>
-                      <h3 className="text-2xl font-semibold text-white">{category.title}</h3>
+                      <h3 className="text-2xl font-semibold text-[rgb(var(--text))]">{category.title}</h3>
                     </div>
                     <div className="h-12 w-12 rounded-3xl bg-[rgba(var(--accent),0.12)] flex items-center justify-center text-[rgb(var(--accent))]">
                       <span className="text-xl font-bold">{category.items.length}</span>
@@ -574,7 +665,7 @@ export function Home() {
                       <p className="text-sm uppercase tracking-[0.35em] text-[rgb(var(--text-secondary))] mb-2">
                         Project
                       </p>
-                      <h3 className="text-2xl font-semibold text-white">{project.title}</h3>
+                      <h3 className="text-2xl font-semibold text-[rgb(var(--text))]">{project.title}</h3>
                     </div>
                     <div className="flex items-center gap-3">
                       <a href={project.github} target="_blank" rel="noopener noreferrer" aria-label="View GitHub repository" className="text-[rgb(var(--accent))] hover:text-[rgb(var(--text))] transition-colors">
@@ -664,7 +755,7 @@ export function Home() {
                 <Card variant="glass" animate hover className="p-8 border border-[rgba(255,255,255,0.08)] shadow-2xl">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
                     <div>
-                      <h3 className="text-xl font-semibold text-white">{education.title}</h3>
+                      <h3 className="text-xl font-semibold text-[rgb(var(--text))]">{education.title}</h3>
                       <p className="text-[rgb(var(--text-secondary))]">{education.institution}</p>
                     </div>
                     <span className="text-sm text-[rgb(var(--accent))] font-medium">{education.date}</span>
@@ -725,7 +816,7 @@ export function Home() {
                       rel="noopener noreferrer"
                       className="group flex items-center justify-between rounded-3xl border border-[rgba(var(--accent),0.18)] bg-[rgba(var(--accent),0.06)] px-5 py-4 transition-all hover:-translate-y-1 hover:border-[rgb(var(--accent))]"
                     >
-                      <span className="font-medium text-white">{platform.label}</span>
+                      <span className="font-medium text-[rgb(var(--text))]">{platform.label}</span>
                       <ExternalLink className="h-5 w-5 text-[rgb(var(--accent))] transition-colors group-hover:text-[rgb(var(--text))]" />
                     </a>
                   ))}

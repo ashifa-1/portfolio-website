@@ -35,7 +35,7 @@ export function Card({
       className={cn(
         'rounded-xl p-6 transition-all duration-300',
         variant === 'default' && 'bg-[rgb(var(--surface))] border border-[rgb(var(--border))] shadow-soft',
-        variant === 'glass' && 'glass-card',
+        variant === 'glass' && 'glass-card dark:glass-card-dark',
         variant === 'gradient' && 'gradient-primary border border-[rgba(var(--accent),0.2)]',
         variant === 'elevated' && 'bg-[rgb(var(--surface))] border border-[rgb(var(--border))] shadow-elevated',
         variant === 'minimal' && 'bg-transparent border border-[rgb(var(--border-secondary))]',
