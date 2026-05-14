@@ -51,9 +51,9 @@ export function Home() {
     : { y: [-10, 10, -10], rotate: [-2, 2, -2] };
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com/ashifa-mohammed', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://linkedin.com/in/ashifa-mohammed', label: 'LinkedIn' },
-    { icon: Code2, href: 'https://leetcode.com/ashifa-mohammed', label: 'LeetCode' },
+    { icon: Github, href: 'https://github.com/ashifa-1/', label: 'GitHub' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/ashifa-mohammed/', label: 'LinkedIn' },
+    { icon: Code2, href: 'https://leetcode.com/ashifaaa', label: 'LeetCode' },
     { icon: Mail, href: 'mailto:mdashifa12@gmail.com', label: 'Email' },
   ];
 
@@ -87,7 +87,7 @@ export function Home() {
         'Built a Retrieval-Augmented Generation system using embeddings and vector databases for intelligent document querying.',
       features: ['Chunking pipeline', 'Embeddings', 'Vector retrieval', 'LLM response generation', 'Reduced hallucinations by ~30%'],
       tech: ['Python', 'FastAPI', 'NLP', 'Vector DB', 'LLMs'],
-      github: 'https://github.com/ashifa-1/rag-docqa',
+      github: 'https://github.com/ashifa-1/rag-doc-qa',
       demo: 'https://example.com/rag-docqa',
     },
     {
@@ -96,8 +96,8 @@ export function Home() {
         'Implemented U-Net with transfer learning for medical image segmentation and improved interpretability.',
       features: ['Transfer learning', 'Data augmentation', 'Segmentation visualization', 'Imaging dataset processing'],
       tech: ['Python', 'TensorFlow', 'Deep Learning', 'Computer Vision'],
-      github: 'https://github.com/ashifa-1/medical-unet',
-      demo: 'https://example.com/medical-unet',
+      github: 'https://github.com/ashifa-1/medical-image-analysis-system',
+      demo: 'https://example.com/medical-image-segmentation',
     },
     {
       title: 'Real-Time Sentiment Analysis Dashboard',
@@ -105,7 +105,7 @@ export function Home() {
         'Built a live sentiment analysis dashboard using LSTM and transformer-based models.',
       features: ['Real-time sentiment classification', '~90% accuracy', 'Optimized preprocessing pipeline', 'Live dashboard visualization'],
       tech: ['Python', 'NLP', 'Transformers', 'LSTM', 'Dashboard UI'],
-      github: 'https://github.com/ashifa-1/sentiment-dashboard',
+      github: 'https://github.com/ashifa-1/sentiment-platform',
       demo: 'https://example.com/sentiment-dashboard',
     },
   ];
@@ -239,11 +239,9 @@ export function Home() {
             </motion.div>
 
             <motion.div variants={itemVariants} transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}>
-              <h1 className="display-font text-[clamp(2.8rem,6.4vw,4rem)] sm:text-[clamp(3.6rem,7.2vw,5.2rem)] md:text-[clamp(4.4rem,6.4vw,6rem)] lg:text-[clamp(5.2rem,5.6vw,6.8rem)] font-black tracking-tight leading-[0.95] sm:leading-[0.95] lg:leading-[0.9]">
+              <h1 className="display-font text-[clamp(2rem,4.5vw,3rem)] sm:text-[clamp(2.5rem,5vw,4rem)] md:text-[clamp(3rem,5vw,4.5rem)] lg:text-[clamp(3.5rem,4.8vw,5rem)] font-black tracking-tight leading-[0.95]">
                 <span className="block bg-gradient-to-r from-[rgb(var(--text))] via-[rgb(var(--accent))] to-[rgb(var(--text))] bg-clip-text text-transparent">
-                  Mohammed Ahmad
-                  <br />
-                  Ashifa
+                  Mohammed Ahmad Ashifa
                 </span>
               </h1>
             </motion.div>
@@ -256,26 +254,30 @@ export function Home() {
             </motion.div>
 
             <motion.div variants={itemVariants} transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }} className="flex flex-col sm:flex-row gap-4">
-              <Button
-                variant="gradient"
-                size="lg"
-                className="group text-base px-7 py-4 h-auto"
-              >
-                <span className="flex items-center">
-                  View Projects
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </span>
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="group text-base px-7 py-4 h-auto border-2 hover:border-[rgb(var(--accent))]"
-              >
-                <span className="flex items-center">
-                  <Download className="mr-2 h-5 w-5" />
-                  Download Resume
-                </span>
-              </Button>
+              <a href="#projects">
+                <Button
+                  variant="gradient"
+                  size="lg"
+                  className="group text-base px-7 py-4 h-auto"
+                >
+                  <span className="flex items-center">
+                    View Projects
+                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </Button>
+              </a>
+              <a href="/Ashifa's resume.pdf" download="Ashifa's resume.pdf">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="group text-base px-7 py-4 h-auto border-2 hover:border-[rgb(var(--accent))]"
+                >
+                  <span className="flex items-center">
+                    <Download className="mr-2 h-5 w-5" />
+                    Download Resume
+                  </span>
+                </Button>
+              </a>
             </motion.div>
 
             <motion.div variants={itemVariants} transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }} className="space-y-4">
@@ -737,12 +739,12 @@ export function Home() {
       <footer className="border-t border-[rgba(var(--border),0.2)] py-8">
         <div className="max-w-3xl mx-auto flex flex-col gap-4 md:flex-row items-center justify-between px-6">
           <p className="text-sm text-[rgb(var(--text-secondary))]">
-            © 2026 Ashifa Mohammed. Built for intelligent systems, product-grade AI, and premium engineering portfolios.
+            © 2026 Mohammed Ahmad Ashifa . Built for intelligent systems, product-grade AI, and premium engineering portfolios.
           </p>
 
           <div className="flex flex-wrap items-center gap-4">
             <a
-              href="https://github.com/ashifa-mohammed"
+              href="https://github.com/ashifa-1"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[rgb(var(--text-secondary))] hover:text-[rgb(var(--accent))] transition-colors"
