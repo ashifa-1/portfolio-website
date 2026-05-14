@@ -739,7 +739,7 @@ export function Home() {
       <footer className="border-t border-[rgba(var(--border),0.2)] py-8">
         <div className="max-w-3xl mx-auto flex flex-col gap-4 md:flex-row items-center justify-between px-6">
           <p className="text-sm text-[rgb(var(--text-secondary))]">
-            © 2026 Mohammed Ahmad Ashifa . Built for intelligent systems, product-grade AI, and premium engineering portfolios.
+            © 2026 Mohammed Ahmad Ashifa. All rights reserved.
           </p>
 
           <div className="flex flex-wrap items-center gap-4">
