@@ -166,14 +166,15 @@ export function Home() {
 
 // Hero Particles Component
 function HeroParticles() {
-  const particles = Array.from({ length: 25 }, (_, i) => ({
+  const particles = Array.from({ length: 35 }, (_, i) => ({
     id: i,
-    size: Math.random() * 6 + 3,
+    size: Math.random() * 8 + 4,
     x: Math.random() * 100,
     y: Math.random() * 100,
-    delay: Math.random() * 15,
-    duration: Math.random() * 20 + 20,
-    color: ['var(--accent)', 'var(--accent-cyan)', 'var(--accent-emerald)'][Math.floor(Math.random() * 3)],
+    delay: Math.random() * 20,
+    duration: Math.random() * 25 + 25,
+    color: ['var(--accent)', 'var(--accent-cyan)', 'var(--accent-emerald)', 'var(--accent-rose)', 'var(--accent-amber)'][Math.floor(Math.random() * 5)],
+    type: Math.random() > 0.6 ? 'glow' : 'particle', // Mix of glows and particles
   }));
 
   return (
@@ -181,19 +182,21 @@ function HeroParticles() {
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute rounded-full"
+          className={`absolute ${particle.type === 'glow' ? 'rounded-full blur-sm' : 'rounded-full'}`}
           style={{
             width: particle.size,
             height: particle.size,
             left: `${particle.x}%`,
             top: `${particle.y}%`,
-            background: `radial-gradient(circle, rgba(${particle.color}, 0.6) 0%, rgba(${particle.color}, 0.3) 50%, transparent 100%)`,
+            background: particle.type === 'glow'
+              ? `radial-gradient(circle, rgba(${particle.color}, 0.5) 0%, rgba(${particle.color}, 0.2) 60%, transparent 100%)`
+              : `rgba(${particle.color}, 0.7)`,
           }}
           animate={{
-            x: [0, Math.random() * 300 - 150, 0],
-            y: [0, Math.random() * 300 - 150, 0],
-            opacity: [0.3, 0.8, 0.3],
-            scale: [1, 1.5, 1],
+            x: [0, Math.random() * 400 - 200, Math.random() * 300 - 150, 0],
+            y: [0, Math.random() * 400 - 200, Math.random() * 300 - 150, 0],
+            opacity: [0.2, 0.8, 0.4, 0.2],
+            scale: [0.8, 1.4, 1.1, 0.8],
           }}
           transition={{
             duration: particle.duration,
@@ -253,50 +256,58 @@ function HeroParticles() {
           <motion.div
             style={{ y: heroFastY }}
             animate={shouldReduceMotion ? {} : {
-              y: [-15, 15, -15],
-              rotate: [-3, 3, -3],
-              scale: [1, 1.05, 1]
+              y: [-20, 20, -20],
+              rotate: [-4, 4, -4],
+              scale: [1, 1.08, 1]
             }}
-            transition={{ duration: 8, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="absolute top-1/5 left-1/5 w-48 h-48 rounded-full bg-gradient-radial from-[rgba(var(--accent),0.15)] via-[rgba(var(--accent),0.08)] to-transparent blur-2xl opacity-80"
+            transition={{ duration: 10, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="absolute top-1/6 left-1/6 w-64 h-64 rounded-full bg-gradient-radial from-[rgba(var(--accent),0.18)] via-[rgba(var(--accent),0.10)] to-transparent blur-3xl opacity-90"
           />
           <motion.div
             style={{ y: heroMidY }}
             animate={shouldReduceMotion ? {} : {
-              y: [-12, 12, -12],
-              rotate: [3, -3, 3],
-              scale: [1.05, 1, 1.05]
+              y: [-16, 16, -16],
+              rotate: [4, -4, 4],
+              scale: [1.08, 1, 1.08]
             }}
-            transition={{ duration: 10, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94], delay: 2 }}
-            className="absolute top-3/4 right-1/5 w-40 h-40 rounded-full bg-gradient-radial from-[rgba(var(--accent-cyan),0.12)] via-[rgba(var(--accent-cyan),0.06)] to-transparent blur-2xl opacity-70"
+            transition={{ duration: 12, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94], delay: 2 }}
+            className="absolute top-4/5 right-1/6 w-56 h-56 rounded-full bg-gradient-radial from-[rgba(var(--accent-cyan),0.15)] via-[rgba(var(--accent-cyan),0.08)] to-transparent blur-3xl opacity-85"
           />
           <motion.div
             style={{ y: heroSlowY }}
             animate={shouldReduceMotion ? {} : {
-              y: [-10, 10, -10],
-              rotate: [-2, 2, -2],
-              scale: [1, 1.08, 1]
+              y: [-14, 14, -14],
+              rotate: [-3, 3, -3],
+              scale: [1, 1.12, 1]
             }}
-            transition={{ duration: 12, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94], delay: 4 }}
-            className="absolute bottom-1/4 left-2/5 w-36 h-36 rounded-full bg-gradient-radial from-[rgba(var(--accent-emerald),0.1)] via-[rgba(var(--accent-emerald),0.05)] to-transparent blur-2xl opacity-60"
+            transition={{ duration: 14, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94], delay: 4 }}
+            className="absolute bottom-1/5 left-3/6 w-48 h-48 rounded-full bg-gradient-radial from-[rgba(var(--accent-emerald),0.12)] via-[rgba(var(--accent-emerald),0.06)] to-transparent blur-3xl opacity-80"
           />
 
           {/* Additional ambient lighting orbs */}
           <motion.div
             animate={shouldReduceMotion ? {} : {
-              scale: [1, 1.2, 1],
-              opacity: [0.4, 0.6, 0.4]
+              scale: [1, 1.3, 1],
+              opacity: [0.5, 0.8, 0.5]
             }}
-            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-            className="absolute top-1/3 right-1/3 w-32 h-32 rounded-full bg-gradient-radial from-[rgba(var(--accent-rose),0.08)] to-transparent blur-xl opacity-50"
+            transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+            className="absolute top-1/4 right-1/4 w-40 h-40 rounded-full bg-gradient-radial from-[rgba(var(--accent-rose),0.10)] to-transparent blur-2xl opacity-60"
           />
           <motion.div
             animate={shouldReduceMotion ? {} : {
-              scale: [1.1, 1, 1.1],
-              opacity: [0.3, 0.5, 0.3]
+              scale: [1.2, 1, 1.2],
+              opacity: [0.4, 0.7, 0.4]
             }}
-            transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-            className="absolute bottom-1/2 left-1/4 w-28 h-28 rounded-full bg-gradient-radial from-[rgba(var(--accent-amber),0.06)] to-transparent blur-xl opacity-40"
+            transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+            className="absolute bottom-1/3 left-1/4 w-44 h-44 rounded-full bg-gradient-radial from-[rgba(var(--accent-amber),0.08)] to-transparent blur-2xl opacity-55"
+          />
+          <motion.div
+            animate={shouldReduceMotion ? {} : {
+              scale: [0.9, 1.4, 0.9],
+              opacity: [0.3, 0.6, 0.3]
+            }}
+            transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 5 }}
+            className="absolute top-2/3 right-2/5 w-36 h-36 rounded-full bg-gradient-radial from-[rgba(var(--accent),0.12)] via-[rgba(var(--accent),0.06)] to-transparent blur-2xl opacity-65"
           />
 
           {/* Interactive floating particles for hero */}
@@ -304,16 +315,18 @@ function HeroParticles() {
 
           {/* Dynamic mesh gradients */}
           <motion.div
-            className="absolute inset-0 opacity-30"
+            className="absolute inset-0 opacity-35"
             animate={{
               background: [
-                'conic-gradient(from 0deg at 50% 50%, rgba(var(--accent), 0.03) 0deg, transparent 90deg, rgba(var(--accent-cyan), 0.02) 180deg, transparent 270deg)',
-                'conic-gradient(from 90deg at 30% 70%, rgba(var(--accent-emerald), 0.03) 0deg, transparent 90deg, rgba(var(--accent-rose), 0.02) 180deg, transparent 270deg)',
-                'conic-gradient(from 180deg at 70% 30%, rgba(var(--accent-amber), 0.03) 0deg, transparent 90deg, rgba(var(--accent), 0.02) 180deg, transparent 270deg)',
-                'conic-gradient(from 0deg at 50% 50%, rgba(var(--accent), 0.03) 0deg, transparent 90deg, rgba(var(--accent-cyan), 0.02) 180deg, transparent 270deg)',
+                'conic-gradient(from 0deg at 50% 50%, rgba(var(--accent), 0.04) 0deg, transparent 90deg, rgba(var(--accent-cyan), 0.03) 180deg, transparent 270deg)',
+                'conic-gradient(from 90deg at 30% 70%, rgba(var(--accent-emerald), 0.04) 0deg, transparent 90deg, rgba(var(--accent-rose), 0.03) 180deg, transparent 270deg)',
+                'conic-gradient(from 180deg at 70% 30%, rgba(var(--accent-amber), 0.04) 0deg, transparent 90deg, rgba(var(--accent), 0.03) 180deg, transparent 270deg)',
+                'radial-gradient(circle at 25% 25%, rgba(var(--accent), 0.03) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(var(--accent-cyan), 0.03) 0%, transparent 50%)',
+                'radial-gradient(circle at 50% 10%, rgba(var(--accent-emerald), 0.03) 0%, transparent 50%), radial-gradient(circle at 10% 90%, rgba(var(--accent-rose), 0.03) 0%, transparent 50%)',
+                'conic-gradient(from 0deg at 50% 50%, rgba(var(--accent), 0.04) 0deg, transparent 90deg, rgba(var(--accent-cyan), 0.03) 180deg, transparent 270deg)',
               ]
             }}
-            transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+            transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
           />
 
           {/* Subtle vignette effect */}

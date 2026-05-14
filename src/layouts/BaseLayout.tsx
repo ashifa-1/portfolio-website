@@ -17,6 +17,9 @@ export function BaseLayout({ children }: BaseLayoutProps) {
           {/* Base gradient layer */}
           <div className="absolute inset-0 bg-gradient-to-br from-[rgb(var(--bg))] via-[rgba(var(--accent),0.02)] to-[rgb(var(--bg))]" />
 
+          {/* Subtle depth dots */}
+          <div className="depth-dots" />
+
           {/* Ambient glow layers */}
           <div className="absolute inset-0 bg-gradient-radial from-[rgba(var(--accent),0.03)] via-transparent to-transparent opacity-60" />
           <div className="absolute inset-0 bg-gradient-conic from-[rgba(var(--accent-cyan),0.02)] via-transparent to-[rgba(var(--accent-emerald),0.02)] opacity-40" />

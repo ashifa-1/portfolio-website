@@ -69,22 +69,40 @@ export function InteractiveBackground({ children }: InteractiveBackgroundProps) 
         <motion.div
           animate={{
             background: [
-              'radial-gradient(circle at 20% 50%, rgba(var(--accent), 0.03) 0%, transparent 50%)',
-              'radial-gradient(circle at 80% 20%, rgba(var(--accent-cyan), 0.04) 0%, transparent 50%)',
-              'radial-gradient(circle at 40% 80%, rgba(var(--accent-emerald), 0.03) 0%, transparent 50%)',
-              'radial-gradient(circle at 20% 50%, rgba(var(--accent), 0.03) 0%, transparent 50%)',
+              'radial-gradient(circle at 20% 50%, rgba(var(--accent), 0.04) 0%, transparent 50%)',
+              'radial-gradient(circle at 80% 20%, rgba(var(--accent-cyan), 0.05) 0%, transparent 50%)',
+              'radial-gradient(circle at 40% 80%, rgba(var(--accent-emerald), 0.04) 0%, transparent 50%)',
+              'radial-gradient(circle at 60% 30%, rgba(var(--accent-rose), 0.03) 0%, transparent 50%)',
+              'radial-gradient(circle at 10% 90%, rgba(var(--accent-amber), 0.04) 0%, transparent 50%)',
+              'radial-gradient(circle at 20% 50%, rgba(var(--accent), 0.04) 0%, transparent 50%)',
             ]
           }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
           className="absolute inset-0"
         />
       </motion.div>
+
+      {/* Floating Gradient Blobs */}
+      <motion.div
+        className="fixed inset-0 pointer-events-none z-0"
+        animate={{
+          background: [
+            'radial-gradient(circle at 30% 70%, rgba(var(--accent), 0.03) 0%, transparent 40%)',
+            'radial-gradient(circle at 70% 30%, rgba(var(--accent-cyan), 0.03) 0%, transparent 40%)',
+            'radial-gradient(circle at 50% 50%, rgba(var(--accent-emerald), 0.02) 0%, transparent 40%)',
+            'radial-gradient(circle at 20% 80%, rgba(var(--accent-rose), 0.03) 0%, transparent 40%)',
+            'radial-gradient(circle at 80% 20%, rgba(var(--accent-amber), 0.02) 0%, transparent 40%)',
+            'radial-gradient(circle at 30% 70%, rgba(var(--accent), 0.03) 0%, transparent 40%)',
+          ]
+        }}
+        transition={{ duration: 35, repeat: Infinity, ease: 'easeInOut' }}
+      />
 
       {/* Dynamic Mesh Background */}
       <DynamicMeshBackground />
 
       {/* Ambient Light Blobs */}
-      <FloatingLightOrbs count={6} size="large" />
+      <FloatingLightOrbs count={8} size="large" />
 
       {/* Content */}
       <div className="relative z-10">
@@ -96,13 +114,15 @@ export function InteractiveBackground({ children }: InteractiveBackgroundProps) 
 
 // Floating Particles Component
 function ParticlesSystem() {
-  const particles = Array.from({ length: 15 }, (_, i) => ({
+  const particles = Array.from({ length: 40 }, (_, i) => ({
     id: i,
-    size: Math.random() * 4 + 2,
+    size: Math.random() * 6 + 2,
     x: Math.random() * 100,
     y: Math.random() * 100,
-    delay: Math.random() * 20,
-    duration: Math.random() * 10 + 15,
+    delay: Math.random() * 25,
+    duration: Math.random() * 15 + 20,
+    color: ['var(--accent)', 'var(--accent-cyan)', 'var(--accent-emerald)', 'var(--accent-rose)', 'var(--accent-amber)'][Math.floor(Math.random() * 5)],
+    type: Math.random() > 0.7 ? 'dot' : 'particle', // Mix of dots and particles
   }));
 
   return (
@@ -110,18 +130,21 @@ function ParticlesSystem() {
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute rounded-full bg-gradient-to-r from-[rgba(var(--accent),0.4)] to-[rgba(var(--accent-cyan),0.4)]"
+          className={`absolute ${particle.type === 'dot' ? 'rounded-full' : 'rounded-full blur-sm'}`}
           style={{
             width: particle.size,
             height: particle.size,
             left: `${particle.x}%`,
             top: `${particle.y}%`,
+            background: particle.type === 'dot'
+              ? `rgba(${particle.color}, 0.6)`
+              : `radial-gradient(circle, rgba(${particle.color}, 0.4) 0%, rgba(${particle.color}, 0.2) 50%, transparent 100%)`,
           }}
           animate={{
-            x: [0, Math.random() * 200 - 100, 0],
-            y: [0, Math.random() * 200 - 100, 0],
-            opacity: [0.2, 0.6, 0.2],
-            scale: [1, 1.5, 1],
+            x: [0, Math.random() * 300 - 150, Math.random() * 200 - 100, 0],
+            y: [0, Math.random() * 300 - 150, Math.random() * 200 - 100, 0],
+            opacity: [0.1, 0.7, 0.3, 0.1],
+            scale: [0.8, 1.2, 0.9, 0.8],
           }}
           transition={{
             duration: particle.duration,
